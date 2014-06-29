@@ -23,12 +23,29 @@ def localDeBruijn(s, k):
             res[v1] = {v2: (1, 1)}
     return res
 
-def graphToStr(graph):
+
+
+def eulerCycle(node):
+    global graph
+    global dna
+
+    if dna == '':
+        dna = node
+    else:
+        dna += node[-1:]
+
+    if graph.get(node) != None:
+        for key, (edge, cover) in graph[node].items():
+            if cover != 0:
+                graph[node][key] = edge - 1, cover
+                eulerCycle(key)
+
     return
 
 reads = open('reads.txt')
 k = 3
 graph = {}
+dna = ''
 
 for line in reads:
     clearLine = line.strip()
@@ -44,5 +61,5 @@ for line in reads:
         else:
             graph[key] = child
 
-graphToStr(graph)
-        #print(key1 + '-' + key2 + ': ' + str(value))
+eulerCycle('AC')
+print(dna)
