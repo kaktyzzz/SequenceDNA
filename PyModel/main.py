@@ -15,8 +15,8 @@ def localDeBruijn(s, k):
         v2 = lstKmers[r+1]
         if res.get(v1) != None:
             if res[v1].get(v2) != None:
-                v1, v2 = res[v1][v2]
-                res[v1][v2] += v1 + 1, v2
+                e, c = res[v1][v2]
+                res[v1][v2] = e + 1, c
             else:
                 res[v1][v2] = 1, 1
         else:
@@ -42,7 +42,7 @@ def eulerCycle(node):
 
     return
 
-reads = open('reads.txt')
+reads = open('dna-reads.txt')
 k = 3
 graph = {}
 dna = ''
@@ -61,5 +61,5 @@ for line in reads:
         else:
             graph[key] = child
 
-eulerCycle('AC')
+eulerCycle('TA')
 print(dna)
