@@ -14,6 +14,7 @@ def localDeBruijn(s, k):
         #v1, v2 = tuple(lstKmers[r:r+1])
         v1 = lstKmers[r]
         v2 = lstKmers[r+1]
+
         if res.get(v1) != None:
             if res[v1].get(v2) != None:
                 e, c = res[v1][v2]
@@ -24,7 +25,18 @@ def localDeBruijn(s, k):
             res[v1] = collections.OrderedDict([(v2, (1, 1))])
     return res
 
+def findFirst():
+    global graph
 
+    children = []
+    for key, child in graph.items():
+        for keyCh, (edge, cover) in child.items():
+            if keyCh not in children:
+                children.append(keyCh)
+
+    for key in graph.keys():
+        if key not in children:
+            return key
 
 def eulerCycle(node):
     global graph
@@ -47,6 +59,7 @@ reads = open('dna-reads.txt')
 k = 3
 graph = {}
 dna = ''
+first = ''
 
 for line in reads:
     clearLine = line.strip()
@@ -62,5 +75,6 @@ for line in reads:
         else:
             graph[key] = child
 
-eulerCycle('TA')
+first = findFirst()
+eulerCycle(first)
 print(dna)
