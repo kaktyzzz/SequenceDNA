@@ -1,3 +1,4 @@
+import collections
 
 def kmers(s, k):
     res = []
@@ -20,7 +21,7 @@ def localDeBruijn(s, k):
             else:
                 res[v1][v2] = 1, 1
         else:
-            res[v1] = {v2: (1, 1)}
+            res[v1] = collections.OrderedDict([(v2, (1, 1))])
     return res
 
 
@@ -36,7 +37,7 @@ def eulerCycle(node):
 
     if graph.get(node) != None:
         for key, (edge, cover) in graph[node].items():
-            if cover != 0:
+            if edge != 0:
                 graph[node][key] = edge - 1, cover
                 eulerCycle(key)
 
