@@ -55,8 +55,8 @@ def eulerCycle(node):
 
     return
 
-reads = open('dna-reads.txt')
-k = 3
+reads = open('reads.txt')
+k = 12
 graph = {}
 dna = ''
 first = ''
@@ -76,5 +76,13 @@ for line in reads:
             graph[key] = child
 
 first = findFirst()
+#first = 'GAAGC'
 eulerCycle(first)
 print(dna)
+syntheticDNA = open('syntheticDNA.txt')
+
+if dna == syntheticDNA.readline().strip():
+    print('GOAL!')
+else:
+    if dna != None:
+        print(str(len(dna)))
