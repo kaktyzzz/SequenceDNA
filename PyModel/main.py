@@ -2,7 +2,6 @@ import collections
 import pygraphviz as pgv
 
 def kmers(s, k):
-
     res = []
     for c in range(0, len(s) - (k - 1) + 1):
         temp = s[c:c+k-1]
@@ -54,13 +53,13 @@ def eulerCycle(node):
             if edge != 0:
                 graph[node][key] = edge - 1, cover
                 eulerCycle(key)
-                break; # не проходим по всем ребрам из данной вершины, а только по первой ненулевой
+                break #don`t move at earch edge from node. Just get one edge with weight !=0
             else:
-                del graph[node][key] # удаляем из графа нулевые вершины чтоб не проходить по ним вообще
+                del graph[node][key] # delete all edge with weigth = 0 for save time
 
 #main
 reads = open('reads.txt')
-k = 8
+k = 13
 graph = {}
 dna = ''
 first = ''
