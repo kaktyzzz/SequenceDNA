@@ -53,7 +53,9 @@ def eulerCycle(node):
             if edge != 0:
                 graph[node][key] = edge - 1, cover
                 eulerCycle(key)
-    return
+                break;
+            else:
+                del graph[node][key]
 
 #main
 reads = open('dna-reads.txt')
@@ -91,11 +93,13 @@ G.draw('graph.svg', prog='dot')
 first = findFirst()
 #first = 'GAAGC'
 eulerCycle(first)
-print(dna)
-syntheticDNA = open('syntheticDNA.txt')
 
-if dna == syntheticDNA.readline().strip():
+syntheticDNA = open('syntheticDNA.txt').readline().strip()
+
+if dna == syntheticDNA:
+    print(dna)
     print('GOAL!')
 else:
     if dna != None:
-        print(str(len(dna)))
+        print(syntheticDNA)
+        print(dna + ' ' +str(len(dna)))
