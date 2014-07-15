@@ -2,6 +2,7 @@ import collections
 import pygraphviz as pgv
 
 def kmers(s, k):
+
     res = []
     for c in range(0, len(s) - (k - 1) + 1):
         temp = s[c:c+k-1]
@@ -53,13 +54,13 @@ def eulerCycle(node):
             if edge != 0:
                 graph[node][key] = edge - 1, cover
                 eulerCycle(key)
-                break;
+                break; # не проходим по всем ребрам из данной вершины, а только по первой ненулевой
             else:
-                del graph[node][key]
+                del graph[node][key] # удаляем из графа нулевые вершины чтоб не проходить по ним вообще
 
 #main
-reads = open('dna-reads.txt')
-k = 3
+reads = open('reads.txt')
+k = 8
 graph = {}
 dna = ''
 first = ''
