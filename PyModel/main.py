@@ -1,4 +1,5 @@
 import collections
+import pygraphviz as pgv
 
 def kmers(s, k):
     res = []
@@ -52,11 +53,11 @@ def eulerCycle(node):
             if edge != 0:
                 graph[node][key] = edge - 1, cover
                 eulerCycle(key)
-
     return
 
-reads = open('reads.txt')
-k = 12
+#main
+reads = open('dna-reads.txt')
+k = 3
 graph = {}
 dna = ''
 first = ''
@@ -75,6 +76,18 @@ for line in reads:
         else:
             graph[key] = child
 
+
+#print graph into .svg
+#d = {'1':{'2':'[label = "a"]'}, '2':{'1':'g', '3':None}, '3':{'2':None}}
+#G = pgv.AGraph(d, directed=True, ranksep='0.1')
+G = pgv.AGraph(directed=True)
+for k1, chDict in graph.items():
+    for k2, value in chDict.items():
+        e, c = value
+        G.add_edge(k1, k2, label = k1 + k2[-1:] +' (' + str(e) + ', ' + str(c)+')')
+G.draw('graph.svg', prog='dot')
+
+#find DNA
 first = findFirst()
 #first = 'GAAGC'
 eulerCycle(first)
