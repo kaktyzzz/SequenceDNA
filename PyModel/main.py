@@ -39,7 +39,31 @@ def findFirst():
         if key not in children:
             return key
 
-def eulerCycle(node):
+def eulerCycleLinear(node):
+    global graph
+    global stack
+
+    stack.append(node)
+    while len(stack) != 0:
+        w = stack[-1]
+
+        u = ''
+        for key, (edge, cover) in graph[w].items():
+            u = key
+            print(u+'!')
+            break
+
+        if u != '':
+            stack.append(u)
+            e, c = graph[w][u]
+            graph[w][u] = e - 1, c
+            if e - 1 == 0:
+                del graph[w][u]
+        else:
+            stack.pop()
+            print w
+
+def eulerCycleRecursive(node):
     global graph
     global dna
 
@@ -52,17 +76,18 @@ def eulerCycle(node):
         for key, (edge, cover) in graph[node].items():
             if edge != 0:
                 graph[node][key] = edge - 1, cover
-                eulerCycle(key)
+                eulerCycleRecursive(key)
                 break #don`t move at earch edge from node. Just get one edge with weight !=0
             else:
                 del graph[node][key] # delete all edge with weigth = 0 for save time
 
 #main
 reads = open('reads.txt')
-k = 13
+k = 4
 graph = {}
 dna = ''
 first = ''
+stack = []
 
 for line in reads:
     clearLine = line.strip()
@@ -92,7 +117,8 @@ G.draw('graph.svg', prog='dot')
 #find DNA
 first = findFirst()
 #first = 'GAAGC'
-eulerCycle(first)
+#eulerCycleRecursive(first)
+eulerCycleLinear(first)
 
 syntheticDNA = open('syntheticDNA.txt').readline().strip()
 
